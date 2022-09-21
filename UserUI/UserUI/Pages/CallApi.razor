@@ -1,0 +1,35 @@
+﻿<h3>CallApi</h3>
+@page "/CallApi"
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@using Microsoft.AspNetCore.Authentication;
+@using System.Net.Http.Headers
+@using System.Text.Json
+@inject HttpClient client
+
+<pre>@Json</pre>
+
+@code {
+    public string Json = string.Empty;
+
+    private IDictionary<string, string> _authProperties = new Dictionary<string, string>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        
+
+        var accessToken = await HttpContextAccessor.HttpContext.GetTokenAsync("access_token");
+
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+        var content = await client.GetStringAsync("https://localhost:6001/identity");
+
+        var parsed = JsonDocument.Parse(content);
+
+        var formatted = JsonSerializer.Serialize(parsed, new JsonSerializerOptions { WriteIndented = true });
+
+        Json = formatted;
+    }
+}

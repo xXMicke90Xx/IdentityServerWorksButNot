@@ -1,0 +1,41 @@
+﻿@page "/Claims"
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@using Microsoft.AspNetCore.Authentication;
+
+<h2>Auth Testing</h2>
+
+Username: @_username
+
+<h3>Authentication Properties</h3>
+
+<dl>
+    @foreach (var prop in _authProperties)
+    {
+        <dt>@prop.Key</dt>
+        <dd>@prop.Value</dd>
+    }
+</dl>
+
+@code {
+    private string _username;
+
+    private IDictionary<string, string> _authProperties = new Dictionary<string, string>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        var authResult = await HttpContextAccessor.HttpContext.AuthenticateAsync();
+
+        if (authResult?.Properties?.Items != null)
+        {
+            _authProperties = authResult.Properties.Items;
+        }
+
+        _username = user.Identity.Name;
+    }
+}
