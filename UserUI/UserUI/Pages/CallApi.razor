@@ -17,9 +17,7 @@
     private IDictionary<string, string> _authProperties = new Dictionary<string, string>();
 
     protected override async Task OnInitializedAsync()
-    {
-        
-
+    {        
         var accessToken = await HttpContextAccessor.HttpContext.GetTokenAsync("access_token");
 
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);

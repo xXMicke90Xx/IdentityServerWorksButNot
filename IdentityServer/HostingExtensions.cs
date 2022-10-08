@@ -41,27 +41,7 @@ internal static class HostingExtensions
                 options.ClientId = "365585794163-q8lmofojt3u5hmo0mo5trvf5o9ahb720.apps.googleusercontent.com";
                 options.ClientSecret = "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";
             });
-            //.AddOpenIdConnect("oidc", "Demo IdentityServer", options =>
-            //{
-            //    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-            //    options.SignOutScheme = IdentityServerConstants.SignoutScheme;
-            //    options.SaveTokens = true;
-
-            //    options.Authority = "https://demo.duendesoftware.com";
-            //    options.ClientId = "interactive.confidential";
-            //    options.ClientSecret = "secret";
-            //    options.ResponseType = "code";
-
-            //    options.TokenValidationParameters = new TokenValidationParameters
-            //    {
-            //        NameClaimType = "name",
-            //        RoleClaimType = "role"
-            //    };
-            //});
-
-
-       
-
+            
         return builder.Build();
     }
     private static void InitializeDatabase(IApplicationBuilder app)

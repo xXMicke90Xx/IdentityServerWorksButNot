@@ -25,7 +25,8 @@ public static class Config
     public static IEnumerable<ApiScope> ApiScopes =>
         new List<ApiScope>
         { 
-            new ApiScope("api1", "MyAPI") 
+            new ApiScope("api1", "MyAPI"), 
+            new ApiScope("api2", "TestApi")
         };
 
     public static IEnumerable<ApiResource> ApiResources =>
@@ -44,7 +45,7 @@ public static class Config
                 
                 AllowedGrantTypes = GrantTypes.ClientCredentials,
                 // scopes that client has access to
-                AllowedScopes = { { "api1" }}
+                AllowedScopes = { { "api1" }, { "api2" } }
             },
             // interactive ASP.NET Core Web App
             new Client
@@ -66,7 +67,7 @@ public static class Config
                  {
                        IdentityServerConstants.StandardScopes.OpenId,
                       IdentityServerConstants.StandardScopes.Profile,
-                      "api1"
+                      "api1", "api2"
                  }
             }
         };

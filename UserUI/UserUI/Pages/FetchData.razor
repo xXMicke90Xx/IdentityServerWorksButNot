@@ -1,9 +1,14 @@
 ﻿@page "/fetchdata"
-
 <PageTitle>Weather forecast</PageTitle>
-
+@using System.Net.Http.Headers
+@using Microsoft.AspNetCore.Authentication
+@using Newtonsoft.Json
 @using UserUI.Data
 @inject WeatherForecastService ForecastService
+@inject HttpClient client
+@inject IHttpContextAccessor HttpContextAccessor
+@using RestSharp.Authenticators.OAuth2;
+@using RestSharp;
 
 <h1>Weather forecast</h1>
 
@@ -43,6 +48,24 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+        RestRequest request = new RestRequest("https://localhost:6001/Weather");
+        RestClient client = new RestClient();
+
+        
+        var accessToken = await HttpContextAccessor.HttpContext.GetTokenAsync("access_token");
+        client.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(accessToken, "Bearer");
+        string s = "";
+
+        try{
+            RestResponse response = client.Execute(request);
+            s = response.Content;
+        }
+        catch{
+
+        }
+        
+
+        forecasts = JsonConvert.DeserializeObject<WeatherForecast[]>(s);
+
     }
 }

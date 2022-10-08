@@ -1,3 +1,4 @@
+using Microsoft.Identity.Web;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,8 +28,16 @@ builder.Services.AddAuthorization(options =>
         //policy.RequireAuthenticatedUser();
         policy.RequireClaim("scope", "api1");
     });
-    
+    options.AddPolicy("MyName", policy =>
+    {
+        //policy.RequireAuthenticatedUser();
+        policy.RequireClaim("scope", "api2");
+    });
+
+
 });
+
+
 
 var app = builder.Build();
 

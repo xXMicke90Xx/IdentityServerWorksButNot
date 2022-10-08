@@ -38,7 +38,9 @@ builder.Services.AddAuthentication(options =>
         options.Scope.Clear();
         options.Scope.Add("openid");
         options.Scope.Add("profile");
+        options.Scope.Add("api2");
         options.Scope.Add("api1");
+
         options.Scope.Add("offline_access");
         options.GetClaimsFromUserInfoEndpoint = true;
 
@@ -51,8 +53,6 @@ builder.Services.AddAuthentication(options =>
 
 
     });
-
-
 
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
